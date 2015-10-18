@@ -22,8 +22,8 @@ public class Matrix {
         this.columns = columns;
         int z = 0;
         matrix = new double[rows][columns];
-        for (int y = 0; y < columns; y++) {
-            for (int x = 0; x < rows; x++) {
+        for (int y = 0; y < rows; y++) {
+            for (int x = 0; x < columns; x++) {
                 matrix[y][x] = nums[z++];
             }
         }
@@ -58,14 +58,14 @@ public class Matrix {
             throw new IllegalArgumentException("Tried to add one or more null " +
                 "matrices.");
         }
-        if (m1.getRows() != m2.getRows() || m1.getColumns() != m2.getColumns()) {
-            throw new IllegalArgumentException("Tried to add a " + m1.getRows()
-                + " by " + m1.getColumns() + " matrix to a " + m2.getRows()
-                + " by " + m2.getColumns() + " matrix.");
+        if (m1.rows != m2.rows || m1.columns != m2.columns) {
+            throw new IllegalArgumentException("Tried to add a " + m1.rows
+                + " by " + m1.columns + " matrix to a " + m2.rows
+                + " by " + m2.columns + " matrix.");
         }
-        Matrix ret = new Matrix(m1.getRows(), m1.getColumns());
-        for (int y = 0; y < ret.getRows(); y++) {
-            for (int x = 0; x < ret.getColumns(); x++) {
+        Matrix ret = new Matrix(m1.rows, m1.columns);
+        for (int y = 0; y < ret.rows; y++) {
+            for (int x = 0; x < ret.columns; x++) {
                 ret.set(y, x, m1.get(y, x) + m2.get(y, x));
             }
         }
@@ -85,19 +85,17 @@ public class Matrix {
             throw new IllegalArgumentException("Tried to multiply one or more "
                 + "null matrices.");
         }
-        if (m1.getColumns() != m2.getRows()) {
-            throw new IllegalArgumentException("Tried to multiply a "
-                + m1.getRows()
-                + " by " + m1.getColumns() + " matrix by a " + m2.getRows()
-                + " by " + m2.getColumns() + " matrix.");
-
+        if (m1.columns != m2.rows) {
+            throw new IllegalArgumentException("Tried to multiply a " + m1.rows
+                + " by " + m1.columns + " matrix by a " + m2.rows
+                + " by " + m2.columns + " matrix.");
         }
-        Matrix ret = new Matrix(m1.getRows(), m2.getColumns());
-        for (int y = 0; y < m1.getRows(); y++) {
-            for (int x = 0; x < m2.getColumns(); x++) {
+        Matrix ret = new Matrix(m1.rows, m2.columns);
+        for (int y = 0; y < m1.rows; y++) {
+            for (int x = 0; x < m2.columns; x++) {
                 double val = 0;
-                for (int z = 0; z < m1.getColumns(); z++) {
-                    val += m1.get(y, z) + m2.get(z, x);
+                for (int z = 0; z < m1.columns; z++) {
+                    val += m1.get(y, z) * m2.get(z, x);
                 }
                 ret.set(y, x, val);
             }
@@ -113,6 +111,33 @@ public class Matrix {
         }
         return ret;
     }
+    public double determinant() {
+        if (rows != columns) {
+            throw new IllegalArgumentException("Tried to take determinant of a "
+                + rows + " by " + columns + " matrix.");
+        }
+        if (rows == 1) {
+            return matrix[0][0];
+        }
+        double total = 0;
+        int scale = 1;
+        Matrix tmp;
+        for (int i = 0; i < rows; i++) {
+            tmp = new Matrix(rows - 1, rows - 1);
+            for (int y = 1; y < rows; y++) {
+                for (int x = 0; x < columns; x++) {
+                    if (x != i) {
+                        tmp.set(y - 1, x > i ? x - 1 : x, matrix[y][x]);
+                    }
+                }
+            }
+            total += scale * matrix[0][i] * tmp.determinant();
+            scale = -scale;
+        }
+        return total;
+    }
+
+    @Override
     public boolean equals(Object other) {
         if (other == null || !(other instanceof Matrix)) {
             return false;
