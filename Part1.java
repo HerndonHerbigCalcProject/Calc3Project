@@ -11,6 +11,17 @@ public class Part1 {
      * @return a nxn pascal matrix
      */
     public static Matrix pascal(int n) {
+        Matrix ret = new Matrix(n, n);
+        for (int y = 0; y < n; y++) {
+            for (int x = 0; x < n; x++) {
+                if (y == 0 || x == 0) {
+                    ret.set(y, x, 1);
+                } else {
+                    ret.set(y, x, ret.get(y-1, x) + ret.get(y, x-1));
+                }
+            }
+        }
+        return ret;
     }
 
     /**
@@ -19,6 +30,7 @@ public class Part1 {
      * @return L, U, and the error |LU-A|
      */
     public static Object[] lu_fact(Matrix A) {
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -28,6 +40,7 @@ public class Part1 {
      * @return Q, R, and the error |QR-A|
      */
     public static Object[] qr_fact_househ(Matrix A) {
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -41,6 +54,7 @@ public class Part1 {
      * @return x, the solution to the system
      */
     public static Matrix solve_lu_b(Matrix A, Vector b) {
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -54,6 +68,7 @@ public class Part1 {
      * @return x, the solution to the system
      */
     public static Matrix solve_qr_b(Matrix A, Vector b) {
+        throw new UnsupportedOperationException();
     }
 
 
