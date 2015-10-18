@@ -7,12 +7,28 @@ public class Matrix {
     private double[][] matrix;
     private int rows;
     private int columns;
+
+    /**
+     * Constructor that takes in m and n and makes an empty matrix
+     * @param rows the number of rows
+     * @param columns the number of columns
+     */
     public Matrix(int rows, int columns) {
         matrix = new double[rows][columns];
         this.rows = rows;
         this.columns = columns;
     }
 
+    /**
+     * Constrctor that takes in m, n and a double array with the numbers.
+     * If (2, 2, new double[]{1, 2, 3, 4}) are passed, the result will be:
+     * 1  2
+     * 3  4
+     * @param rows the number of rows
+     * @param columns the number of columns
+     * @param nums a double array with the numbers
+     * @throws IllegalArgumentException if length of nums is not equal to m x n
+     */
     public Matrix(int rows, int columns, double[] nums) {
         if (nums.length != rows * columns) {
             throw new IllegalArgumentException("Tried to make a " + rows + " by "
@@ -29,14 +45,28 @@ public class Matrix {
         }
     }
 
+    /**
+     * Returns the number of rows in matrix, or m, or the height
+     * @return total number of rows
+     */
     public int getRows() {
         return rows;
     }
-
+    /**
+     * Returns the total number of columns in matrix, or n, or the width
+     * @return total number of columns
+     */
     public int getColumns() {
         return columns;
     }
-
+    /**
+     * Gets a value from the matrix. Arguments are zero-indexed, and Y-value
+     * comes first
+     * @param row the row where the desired data is
+     * @param column the column where the desired data is
+     * @return the value at this row and column
+     * @throws IllegalArgumentException if args are not in proper range
+     */
     public double get(int row, int column) {
         if (row < 0 || row >= rows || column < 0 || column >= columns) {
             throw new IllegalArgumentException("Tried to get value at row " + row
@@ -45,6 +75,15 @@ public class Matrix {
         }
         return matrix[row][column];
     }
+
+    /**
+     * Sets a value of some entry in the matrix. Note this method is also 
+     * zero-indexed and the y-coordinate comes first
+     * @param row the row where we want to set the value
+     * @param column the column where we want to set the value
+     * @param val a double with the new value we want to insert into the matrix
+     * @throws IllegalArgumentException if parameters are not in proper range
+     */
     public void set(int row, int column, double val) {
         if (row < 0 || row >= rows || column < 0 || column >= columns) {
             throw new IllegalArgumentException("Tried to set value at row " + row
@@ -53,6 +92,13 @@ public class Matrix {
         }
         matrix[row][column] = val;
     }
+    /**
+     * Returns the sum of two matrices
+     * @param m1 a Matrix
+     * @param m2 another Matrix
+     * @return a matrix object that represents the sum of the two matrices given
+     * @throws IllegalArgumentException if matrices have different dimensions
+     */
     public static Matrix sum(Matrix m1, Matrix m2) {
         if (m1 == null || m2 == null) {
             throw new IllegalArgumentException("Tried to add one or more null " +
@@ -71,6 +117,12 @@ public class Matrix {
         }
         return ret;
     }
+
+    /**
+     * Returns this matrix multiplied by some scalar quantity
+     * @param scale the scalar we are multiplying
+     * @return this matrix multiplied by the scalar
+     */
     public Matrix scalarMultiply(double scale) {
         Matrix ret = new Matrix(rows, columns);
         for (int y = 0; y < rows; y++) {
@@ -80,6 +132,14 @@ public class Matrix {
         }
         return ret;
     }
+
+    /**
+     * Returns the product of two matrices
+     * @param m1 the first Matrix
+     * @param m2 the second  Matrix
+     * @return a matrix object that represents the first matrix times the second
+     * @throws IllegalArgumentException if matrices cannot be multiplied
+     */
     public static Matrix product(Matrix m1, Matrix m2) {
         if (m1 == null || m2 == null) {
             throw new IllegalArgumentException("Tried to multiply one or more "
@@ -102,6 +162,10 @@ public class Matrix {
         }
         return ret;
     }
+    /**
+     * Returns the transpose of this matrix
+     * @return the transpose of this matrix
+     */
     public Matrix transpose() {
         Matrix ret = new Matrix(columns, rows);
         for (int y = 0; y < rows; y++) {
@@ -111,6 +175,10 @@ public class Matrix {
         }
         return ret;
     }
+    /**
+     * Returns the determinant of this matrix
+     * @return the determinant of this matrix
+     */
     public double determinant() {
         if (rows != columns) {
             throw new IllegalArgumentException("Tried to take determinant of a "
@@ -157,6 +225,18 @@ public class Matrix {
             }
         }
         return true;
+    }
+    /**
+     * Creates the identity matrix
+     * @param size the size of the identity matrix desired
+     * @return the identity matrix
+     */
+    public static Matrix identity(int size) {
+        Matrix ret = new Matrix(size, size);
+        for (int i = 0; i < size; i++) {
+            ret.set(i, i, 1);
+        }
+        return ret;
     }
 }
 

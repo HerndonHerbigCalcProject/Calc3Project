@@ -35,5 +35,9 @@ public class MTest {
         System.out.println(testMultiply(m2, m3, tmp));
         tmp = new Matrix(2, 3, new double[] {1,3,5,2,4,6});
         System.out.println(tmp.transpose().equals(m3));
+        tmp = new Matrix(2, 3, new double[] {2, 4, 6, 8, 10, 12});
+        System.out.println(tmp.equals(m2.scalarMultiply(2)));
+        tmp = new Matrix(3, 3, new double[] {1, 0, 0, 0, 1, 0, 0, 0, 1});
+        System.out.println(tmp.equals(Matrix.identity(3)));
     }
 }
