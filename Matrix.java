@@ -226,6 +226,7 @@ public class Matrix {
         }
         return true;
     }
+
     /**
      * Creates the identity matrix
      * @param size the size of the identity matrix desired
@@ -237,6 +238,18 @@ public class Matrix {
             ret.set(i, i, 1);
         }
         return ret;
+    }
+
+    @Override
+    public String toString() {
+        String ret = "\n";
+        for (int y = 0; y < rows; y++) {
+            for (int x = 0; x < columns; x++) {
+                ret = ret + String.format("%4.3f", matrix[y][x]) + "\t";
+            }
+            ret = ret + "\n";
+        }
+        return ret + "\n";
     }
 }
 
