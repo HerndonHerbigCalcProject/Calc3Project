@@ -4,9 +4,9 @@
  * @version 1.0
  */
 public class Matrix {
-    private double[][] matrix;
-    private int rows;
-    private int columns;
+    protected double[][] matrix;
+    protected int rows;
+    protected int columns;
 
     /**
      * Constructor that takes in m and n and makes an empty matrix
