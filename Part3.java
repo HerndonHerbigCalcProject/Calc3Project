@@ -1,5 +1,5 @@
 /**
- * In this part you’ll investigate the convergence of the power method for
+ * In this part you'll investigate the convergence of the power method for
  * calculating eigenvalues and eigenvectors of randomly generated 2×2 matrices.
  * @version 1.0
  * @author JT Herndon 
@@ -8,7 +8,7 @@
 public class Part3 {
     /**
      * Implement a procedure named power_method that uses the power method to 
-     * approximate an eigenvalue and associated eigenvector of an n × n matrix.
+     * approximate an eigenvalue and associated eigenvector of an n x n matrix.
      * @param A an n × n matrix A with floating-point real numbers as entries 
      *          (the algorithm should work for n ≥ 2)
      * @param v a vector of n floating-point real numbers that serves as the

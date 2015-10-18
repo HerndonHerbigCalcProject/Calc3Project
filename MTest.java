@@ -1,8 +1,16 @@
+/**
+ * Class to make sure everything works
+ * @version 1.0
+ * @author JT Herndon
+ */
 public class MTest {
     private static Matrix m1;
     private static Matrix m2;
     private static Matrix m3;
     private static Matrix m4;
+    /**
+     * Sets up test matrices
+     */
     public static void setup() {
         m1 = new Matrix(3, 3, new double[] {1, 2, 3, 4, 5, 6, 7, 8, 9});
         m2 = new Matrix(2, 3, new double[] {1, 2, 3, 4, 5, 6});
@@ -10,15 +18,27 @@ public class MTest {
         m4 = new Matrix(3, 3, new double[] {3, 1, 2, 4, 5, 8, 7, 6, 9});
     }
 
+    /**
+     * tests the add function
+     * @return true if Matrix.add() works properly
+     */
     public static boolean testAdd() {
         Matrix result = new Matrix(3, 3, new double[] {4,3,5,8,10,14,14,14,18});
         return result.equals(Matrix.sum(m1,m4));
     }
 
+    /**
+     * tests the determinant function
+     * @return true if determinant works properly
+     */
     public static boolean testDeterminant() {
         return m1.determinant() == 0 && m4.determinant() == -11;
     }
 
+    /**
+     * tests the multiply function
+     * @return true if Matrix.product() works as expected
+     */
     public static boolean testMultiply(Matrix M1, Matrix M2, Matrix result) {
         return Matrix.product(M1, M2).equals(result);
     }
