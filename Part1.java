@@ -44,6 +44,15 @@ public class Part1 {
     }
 
     /**
+     * Implement QR-factorization of a n x n matrix A using Givens rotations
+     * @param A the matrix
+     * @return Q, R, and the error |QR-A|
+     */
+    public static Object[] qr_fact_givens(Matrix A) {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
      * Implement procedure to obtain the solution to a system Ax = b for a
      * nxn matrix A and a nx1 vector b using lu-factorization
      * IMPORTANT: the use of an inverse matrix function should
