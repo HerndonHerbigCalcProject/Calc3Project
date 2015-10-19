@@ -66,5 +66,7 @@ public class MTest {
         System.out.println(tmp);
         tmp = new Matrix(3, 3, new double[] {1, 1, 1, 1, 2, 3, 1, 3, 6});
         System.out.println(tmp.equals(Part1.pascal(3)));
+        System.out.println(m2.norm_inf());
+        System.out.println(m3.norm_inf());
     }
 }

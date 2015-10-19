@@ -20,5 +20,6 @@ public class Part3 {
      * @return an eigenvalue and associated eigenvector
      */
     public static Object[] power_method(Matrix A, Vector v, double e, int N) {
+        throw new UnsupportedOperationException();
     }
 }

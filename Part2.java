@@ -17,6 +17,7 @@ public class Part2 {
      *         the method before quitting
      */
     public static Vector jacobi_iter(Vector A, double e, int M) {
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -29,5 +30,6 @@ public class Part2 {
      *         the method before quitting
      */
     public static Vector gs_iter(Vector A, double e, int M) {
+        throw new UnsupportedOperationException();
     }
 }

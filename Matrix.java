@@ -240,6 +240,23 @@ public class Matrix {
         return ret;
     }
 
+    /**
+     * Calculates the infinity-norm of a matrix, or the maximum absolute value
+     * row sum
+     * @return the infinity-norm
+     */
+    public double norm_inf() {
+        double ret = 0;
+        for (int y = 0; y < rows; y++) {
+            double sum = 0;
+            for (int x = 0; x < columns; x++) {
+                sum += Math.abs(matrix[y][x]);
+            }
+            ret = sum > ret ? sum : ret;
+        }
+        return ret;
+    }
+
     @Override
     public String toString() {
         String ret = "\n";
