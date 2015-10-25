@@ -257,6 +257,15 @@ public class Matrix {
         return ret;
     }
 
+    public Vector toVector() {
+        if (columns == 1) {
+            return new Vector(this, 0);
+        } else {
+            throw new IllegalArgumentException("Tried to turn a matrix with "
+                + columns + " columns into a vector.");
+        }
+    }
+
     @Override
     public String toString() {
         String ret = "\n";

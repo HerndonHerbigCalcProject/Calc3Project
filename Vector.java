@@ -23,4 +23,7 @@ public class Vector extends Matrix{
         }
         return Math.sqrt(ret);
     }
+    public static double dotProduct(Vector v1, Vector v2) {
+        return product(v1.transpose(), v2).get(0, 0);
+    }
 }

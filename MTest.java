@@ -70,5 +70,9 @@ public class MTest {
         System.out.println(m3.norm_inf());
         System.out.println(new Vector(m4, 0));
         System.out.println((new Vector(m4, 0)).magnitude());
+        Vector v1 = new Vector(m3, 1);
+        Vector v2 = new Vector(m1, 1);
+        System.out.println("" + v1 + v2);
+        System.out.println(Vector.dotProduct(v1, v2));
     }
 }
