@@ -15,7 +15,7 @@ public class MTest {
         m1 = new Matrix(3, 3, new double[] {1, 2, 3, 4, 5, 6, 7, 8, 9});
         m2 = new Matrix(2, 3, new double[] {1, 2, 3, 4, 5, 6});
         m3 = new Matrix(3, 2, new double[] {1, 2, 3, 4, 5, 6});
-        m4 = new Matrix(3, 3, new double[] {3, 1, 2, 4, 5, 8, 7, 6, 9});
+        m4 = new Matrix(3, 3, new double[] {3, 1, 2, 4, 5, 8, 12, 6, 9});
     }
 
     /**
@@ -68,5 +68,7 @@ public class MTest {
         System.out.println(tmp.equals(Part1.pascal(3)));
         System.out.println(m2.norm_inf());
         System.out.println(m3.norm_inf());
+        System.out.println(new Vector(m4, 0));
+        System.out.println((new Vector(m4, 0)).magnitude());
     }
 }
