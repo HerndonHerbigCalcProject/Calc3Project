@@ -7,14 +7,9 @@
  * @author Alex Herbig
  */
 public class Part2 {
-    /*private static final Matrix A = (new Matrix(3, 3, new double[] {1.0, 1.0/2,
-        1.0/3, 1.0/2, -1.0/3, -1.0/4, 1.0/3, -1.0/4, 1.0/5}))
-        .scalarMultiply(60);
-    private static final Vector b = (new Vector(new double[] {0.1, 0.1, 0.1}))
-        .scalarMultiply(60).toVector();
-        */
-    private static final Matrix A = new Matrix(3, 3, new double[] {4, -1, -1, -2, 6, 1, -1, 1, 7});
-    private static final Vector b = new Vector(new double[] {3, 9, -6});
+    private static final Matrix A = (new Matrix(3, 3, new double[] {1.0, 1.0/2,
+        1.0/3, 1.0/2, 1.0, 1.0/4, 1.0/3, 1.0/4, 1.0}));
+    private static final Vector b = (new Vector(new double[] {0.1, 0.1, 0.1}));
 
     /**
      * Implement a procedure that uses the Jacobi iterative method to
@@ -24,14 +19,19 @@ public class Part2 {
      *         close enough
      * @param M a positive integer M giving the maximum number of times to
      *         iterate the method before quitting
+     * @return The outputs should be the approximate solution xN obtained by the
+     *          iterative method as well as the number of iterations N needed to
+     *          obtainthat approximation. If the procedure iterates M and has
+     *           not attained an answer with sufficient accuracy, the
+     *           output should instead be a value representing a failure 
      */
-    public static Vector jacobi_iter(Vector x0, double e, int M) {
+    public static Object[] jacobi_iter(Vector x0, double e, int M) {
         if (M == 0) {
             return null;
         }
         if ((Matrix.sum(Matrix.product(A, x0), b.scalarMultiply(-1)))
             .toVector().magnitude() < e) {
-            return x0;
+            return new Object[] {x0, new Integer(0)};
         }
         Vector x1;
         Matrix S = new Matrix(3, 3);
@@ -47,13 +47,15 @@ public class Part2 {
             }
         }
         if (M == 1) {
-            System.out.println(S);
-            System.out.println(T);
+            //System.out.println(S);
+            //System.out.println(T);
         }
         x1 = (Matrix.product(S, Matrix.sum(b, Matrix.product(
             T, x0).scalarMultiply(-1)))).toVector();
-        System.out.println(x1);
-        return jacobi_iter(x1, e, M - 1);
+        //System.out.println(x1);
+        Object[] ret =  jacobi_iter(x1, e, M - 1);
+        ret[1] = new Integer((Integer) ret[1] + 1);
+        return ret;
     }
 
     /**
@@ -72,6 +74,9 @@ public class Part2 {
     public static void main(String[] args) {
         System.out.println(A);
         System.out.println(b);
-        System.out.println(jacobi_iter(new Vector(new double[] {0, 0, 0}), 0.0005, 30));
+        Object[] test1 = jacobi_iter(new Vector(new double[] {0, 0, 0}), 0.0005,
+             30);
+        System.out.println("Vector result:\n"+test1[0]);
+        System.out.println("Iterations required: " + test1[1]);
     }
 }
