@@ -65,11 +65,11 @@ public class Part1 {
         X = X.scalarMultiply(1 / X.magnitude()).toVector();
         Matrix H = Matrix.identity(A.getRows());
         H = Matrix.sum(H, Matrix.product(X, X.transpose()).scalarMultiply(-2));
-        System.out.println("X: " + X);
-        System.out.println("H: " + H);
+        //System.out.println("X: " + X);
+        //System.out.println("H: " + H);
         Matrix Anew = Matrix.product(H, A);
         //At this point, we've killed all the non-zero elements in first col
-        System.out.println(Anew);
+        //System.out.println(Anew);
         Object[] next = qr_fact_househ(Anew.subMatrix(1, 1, A.getRows() - 1,
             A.getColumns() - 1));
         Matrix oldQ = Matrix.identity(A.getRows());

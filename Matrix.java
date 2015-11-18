@@ -144,6 +144,28 @@ public class Matrix {
     }
 
     /**
+     * Adds this matrix to another
+     * @param other another matrix to add
+     * @return sum of this matrix and the argument
+     */
+    Matrix plus(Matrix other) {
+        return sum(this, other);
+    }
+
+    /**
+     * Multiplies this matrix by another, with this on the left and arg on right
+     * @param other another matrix to multiply
+     * @return product of this matrix and the argument
+     */
+    Matrix times(Matrix other) {
+        return product(this, other);
+    }
+
+    Matrix times(double scale) {
+        return scalarMultiply(scale);
+    }
+
+    /**
      * Returns this matrix multiplied by some scalar quantity
      * @param scale the scalar we are multiplying
      * @return this matrix multiplied by the scalar

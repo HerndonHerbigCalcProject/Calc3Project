@@ -27,7 +27,7 @@ public class Part2 {
      */
     public static Object[] jacobi_iter(Vector x0, double e, int M) {
         if (M == 0) {
-            return null;
+            return new Object[] {null, new Integer(0)};
         }
         if ((Matrix.sum(Matrix.product(A, x0), b.scalarMultiply(-1)))
             .toVector().magnitude() < e) {
@@ -101,7 +101,7 @@ public class Part2 {
             total++;
         }
         if (total == M) {
-            return null;
+            return new Object[] {null, new Integer(total)};
         }
         return new Object[] {x0, new Integer(total)};
     }
