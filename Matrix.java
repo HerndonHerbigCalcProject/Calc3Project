@@ -257,6 +257,27 @@ public class Matrix {
         return ret;
     }
 
+    /** 
+     * Gets the trace of the matrix, used in part 3
+     * @return the trace
+     */
+    public double trace() {
+        if (rows != columns) {
+            throw new UnsupportedOperationException("Can't take trace of non"
+                + " square matrix");
+        }
+        double ret = 0;
+        for (int i = 0; i < rows; i++) {
+            ret += matrix[i][i];
+        }
+        return ret;
+    }
+
+    /**
+     * If the matrix has 1 and exactly 1 column, this method returns an
+     * equivalent vector object
+     * @return a vector equivalent to the matrix
+     */
     public Vector toVector() {
         if (columns == 1) {
             return new Vector(this, 0);

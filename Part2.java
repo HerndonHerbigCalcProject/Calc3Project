@@ -62,10 +62,12 @@ public class Part2 {
      * Implement a procedure that uses the Gauss-Seidel iterative method to
      * approximate the solution to the system Ax = b
      * @param x0 a 3 x 1 vector x0 with floating-point real numbers as entries
-     * @param e a tolerance parameter that determines when approximation is 
+     * @param error a tolerance parameter that determines when approximation is 
      *         close enough
      * @param M a positive integer M giving the maximum number of times to
      *         iterate the method before quitting
+     * @return the vector object representing the approximation, and an integer
+     *         object representing the number of iterations required
      */
     public static Object[]  gs_iter(Vector x0, double error, int M) {
         Vector b0 = b;
