@@ -40,7 +40,48 @@ public class Part1 {
      * @return Q, R, and the error |QR-A|
      */
     public static Object[] qr_fact_househ(Matrix A) {
-        throw new UnsupportedOperationException();
+        /*
+        Household reflection:
+
+        We are trying to convert the vector U
+        {a, b, c} to {M, 0, 0} where M is magnitude
+
+        We do this by taking the projection of U onto {1,0,0}
+        and add it to U, and this gives us a vector x
+        
+        To reflect U across the perpendicular component of x,
+        we would subtract 2 times projection of U onto x from U.
+
+        in other words, our transformation would be
+        I - 2*x*xt
+        */
+
+        if (A.getRows() == 1) {
+            return new Object[] {new Matrix(1, 1, new double[] {1}), A, 0};
+        }
+        Vector X = new Vector(A, 0);
+        double mag = X.magnitude();
+        X.set(0, X.get(0) + mag);
+        X = X.scalarMultiply(1 / X.magnitude()).toVector();
+        Matrix H = Matrix.identity(A.getRows());
+        H = Matrix.sum(H, Matrix.product(X, X.transpose()).scalarMultiply(-2));
+        System.out.println("X: " + X);
+        System.out.println("H: " + H);
+        Matrix Anew = Matrix.product(H, A);
+        //At this point, we've killed all the non-zero elements in first col
+        System.out.println(Anew);
+        Object[] next = qr_fact_househ(Anew.subMatrix(1, 1, A.getRows() - 1,
+            A.getColumns() - 1));
+        Matrix oldQ = Matrix.identity(A.getRows());
+        Matrix oldR = Anew;
+        for (int y = 1; y < A.getRows(); y++) {
+            for (int x = 1; x < A.getRows(); x++) {
+                oldQ.set(y, x, ((Matrix) next[0]).get(y - 1, x - 1));
+                oldR.set(y, x, ((Matrix) next[1]).get(y - 1, x - 1));
+            }
+        }
+        Matrix Q = Matrix.product(H, oldQ);
+        return new Object[] {Q, oldR, new Double(0)};
     }
 
     /**

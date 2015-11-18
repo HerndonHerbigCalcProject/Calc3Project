@@ -46,6 +46,31 @@ public class Matrix {
     }
 
     /**
+     * returns a sub matrix
+     * @param top the top of the matrix to include (to include all
+     *      rows, top would be 0)
+     * @param left the left of the matrix to include (to include all
+            columns, left would be 0)
+     * @param rows the number of rows to include
+     * @param columns the number of columns to include
+     */
+    public Matrix subMatrix(int top, int left, int rows, int columns) {
+        if (this.rows - top < rows || this.columns - left < columns) {
+            throw new IllegalArgumentException("Tried to take submatrix of "
+                + this.rows + "x" + this.columns + " matrix from rows "
+                + top+ " to " + (top+rows) + " and columns " + left
+                + " to " + (left+columns) + ".");
+        }
+        Matrix ret = new Matrix(rows, columns);
+        for (int y = 0; y < rows; y++) {
+            for (int x = 0; x < columns; x++) {
+                ret.set(y, x, this.get(top + y, left + x));
+            }
+        }
+        return ret;
+    }
+
+    /**
      * Returns the number of rows in matrix, or m, or the height
      * @return total number of rows
      */

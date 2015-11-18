@@ -16,6 +16,10 @@ public class MTest {
         m2 = new Matrix(2, 3, new double[] {1, 2, 3, 4, 5, 6});
         m3 = new Matrix(3, 2, new double[] {1, 2, 3, 4, 5, 6});
         m4 = new Matrix(3, 3, new double[] {3, 1, 2, 4, 5, 8, 12, 6, 9});
+        System.out.println(m1);
+        System.out.println(m2);
+        System.out.println(m3);
+        System.out.println(m4);
     }
 
     /**
@@ -74,5 +78,19 @@ public class MTest {
         Vector v2 = new Vector(m1, 1);
         System.out.println("" + v1 + v2);
         System.out.println(Vector.dotProduct(v1, v2));
+        System.out.println(v1.subVector(0, 2));
+        try {
+            System.out.println(m2.subMatrix(1, 0, 3, 2));
+        } catch (Exception e){ 
+            System.out.println("Failed as expected");
+        }
+        System.out.println(m1.subMatrix(1, 0, 2, 2));
+        //Matrix P = Part1.pascal(3);
+        Matrix P = new Matrix(3, 3, new double[] {3, 4, 12, 4, 2, 3, 12, 4, 3});
+        Object[] ans = Part1.qr_fact_househ(P);
+        System.out.println(ans[0]);
+        System.out.println(ans[1]);
+        System.out.println(Matrix.product((Matrix) ans[0], (Matrix) ans[1]));
+
     }
 }

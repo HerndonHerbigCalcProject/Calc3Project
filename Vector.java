@@ -16,6 +16,27 @@ public class Vector extends Matrix{
             set(i, 0, m.get(i, column));
         }
     }
+
+    public double get(int i) {
+        return get(i, 0);
+    }
+
+    public void set(int i, double d) {
+        set(i, 0, d);
+    }
+
+    public Vector subVector(int start, int size) {
+        if (size + start > rows) {
+            throw new IllegalArgumentException("Tried to make subvector"
+                + " from size " + rows + " vector starting at "
+                + start + " and of size " + size + ".");
+        }
+        Vector ret = new Vector(size);
+        for (int i = 0; i < size; i++) {
+            ret.set(i, this.get(i + start));
+        }
+        return ret;
+    }
     public double magnitude() {
         double ret = 0;
         for (int i = 0; i < getRows(); i++) {
