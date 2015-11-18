@@ -271,7 +271,7 @@ public class Matrix {
         String ret = "\n";
         for (int y = 0; y < rows; y++) {
             for (int x = 0; x < columns; x++) {
-                ret = ret + String.format("%2.4f", matrix[y][x]) + "\t";
+                ret = ret + String.format("%2.7f", matrix[y][x]) + ",";
             }
             ret = ret + "\n";
         }
