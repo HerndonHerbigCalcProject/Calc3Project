@@ -55,9 +55,13 @@ public class Part1 {
         in other words, our transformation would be
         I - 2*x*xt
         */
-
+        //System.out.println(A.getRows() + " by " + A.getColumns());
         if (A.getRows() == 1) {
             return new Object[] {new Matrix(1, 1, new double[] {1}), A, 0};
+        }
+        //System.out.println(A.getColumns() == 0);
+        if (A.getColumns() == 0) {
+            return new Object[] {new Matrix(0, 0), A, new Double(0)};
         }
         Vector X = new Vector(A, 0);
         double mag = X.magnitude();
@@ -75,9 +79,13 @@ public class Part1 {
         Matrix oldQ = Matrix.identity(A.getRows());
         Matrix oldR = Anew;
         for (int y = 1; y < A.getRows(); y++) {
+            for (int x = 1; x < A.getColumns(); x++) {
+                oldR.set(y, x, ((Matrix) next[1]).get(y - 1, x - 1));
+            }
+        }
+        for (int y = 1; y < A.getRows(); y++) {
             for (int x = 1; x < A.getRows(); x++) {
                 oldQ.set(y, x, ((Matrix) next[0]).get(y - 1, x - 1));
-                oldR.set(y, x, ((Matrix) next[1]).get(y - 1, x - 1));
             }
         }
         Matrix Q = Matrix.product(H, oldQ);
@@ -93,33 +101,40 @@ public class Part1 {
         if (A.getRows() == 1) {
             return new Object[] {Matrix.identity(1), A, 0};
         }
+        if (A.getColumns() == 0) {
+            return new Object[] {new Matrix(0, 0), new Matrix(0, 0), new Double(0)};
+        }
         Matrix Anew = A.subMatrix(0, 0, A.getRows(), A.getColumns());
         Matrix G = Matrix.identity(A.getRows());
         //Copyig A
-        for (int i = 1; i < A.getColumns(); i++) {
+        for (int i = 1; i < A.getRows(); i++) {
             double x = Anew.get(0, 0);
             double y = Anew.get(i, 0);
             double r = Math.sqrt(x * x + y * y);
             double c = x / r;
             double s = -y / r;
-            Matrix g = Matrix.identity(A.getColumns());
+            Matrix g = Matrix.identity(A.getRows());
             g.set(0, 0, c);
             g.set(i, 0, s);
             g.set(0, i, -s);
             g.set(i, i, c);
             Anew = g.times(Anew);
             G = G.times(g.transpose());
-            System.out.println("A: "+Anew);
-            System.out.println("G: "+G);
+            //System.out.println("A: "+Anew);
+            //System.out.println("G: "+G);
         }
         Object[] next = qr_fact_givens(Anew.subMatrix(1, 1, A.getRows() - 1,
             A.getColumns() - 1));
         Matrix oldQ = Matrix.identity(A.getRows());
         Matrix oldR = Anew;
         for (int y = 1; y < A.getRows(); y++) {
+            for (int x = 1; x < A.getColumns(); x++) {
+                oldR.set(y, x, ((Matrix) next[1]).get(y - 1, x - 1));
+            }
+        }
+        for (int y = 1; y < A.getRows(); y++) {
             for (int x = 1; x < A.getRows(); x++) {
                 oldQ.set(y, x, ((Matrix) next[0]).get(y - 1, x - 1));
-                oldR.set(y, x, ((Matrix) next[1]).get(y - 1, x - 1));
             }
         }
         Matrix Q = Matrix.product(G, oldQ);

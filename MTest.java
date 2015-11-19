@@ -101,6 +101,10 @@ public class MTest {
         System.out.println(ans[2]);
         H = (Matrix) ans[0];
         System.out.println(H.times(H.transpose()));
+        System.out.println(Part1.qr_fact_givens(m2)[1]);
+        System.out.println(Part1.qr_fact_givens(m3)[1]);
+        System.out.println(Part1.qr_fact_givens(m2)[2]);
+        System.out.println(Part1.qr_fact_givens(m3)[2]);
 
     }
 }
