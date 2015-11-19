@@ -91,6 +91,16 @@ public class MTest {
         System.out.println(ans[0]);
         System.out.println(ans[1]);
         System.out.println(Matrix.product((Matrix) ans[0], (Matrix) ans[1]));
+        System.out.println(ans[2]);
+        Matrix H = (Matrix) ans[0];
+        System.out.println(H.times(H.transpose()));
+        ans = Part1.qr_fact_givens(P);
+        System.out.println(ans[0]);
+        System.out.println(ans[1]);
+        System.out.println(Matrix.product((Matrix) ans[0], (Matrix) ans[1]));
+        System.out.println(ans[2]);
+        H = (Matrix) ans[0];
+        System.out.println(H.times(H.transpose()));
 
     }
 }

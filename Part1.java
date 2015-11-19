@@ -48,7 +48,7 @@ public class Part1 {
 
         We do this by taking the projection of U onto {1,0,0}
         and add it to U, and this gives us a vector x
-        
+
         To reflect U across the perpendicular component of x,
         we would subtract 2 times projection of U onto x from U.
 
@@ -81,7 +81,7 @@ public class Part1 {
             }
         }
         Matrix Q = Matrix.product(H, oldQ);
-        return new Object[] {Q, oldR, new Double(0)};
+        return new Object[] {Q, oldR, new Double(Q.times(oldR).plus(A.times(-1)).norm_inf())};
     }
 
     /**
@@ -90,7 +90,40 @@ public class Part1 {
      * @return Q, R, and the error |QR-A|
      */
     public static Object[] qr_fact_givens(Matrix A) {
-        throw new UnsupportedOperationException();
+        if (A.getRows() == 1) {
+            return new Object[] {Matrix.identity(1), A, 0};
+        }
+        Matrix Anew = A.subMatrix(0, 0, A.getRows(), A.getColumns());
+        Matrix G = Matrix.identity(A.getRows());
+        //Copyig A
+        for (int i = 1; i < A.getColumns(); i++) {
+            double x = Anew.get(0, 0);
+            double y = Anew.get(i, 0);
+            double r = Math.sqrt(x * x + y * y);
+            double c = x / r;
+            double s = -y / r;
+            Matrix g = Matrix.identity(A.getColumns());
+            g.set(0, 0, c);
+            g.set(i, 0, s);
+            g.set(0, i, -s);
+            g.set(i, i, c);
+            Anew = g.times(Anew);
+            G = G.times(g.transpose());
+            System.out.println("A: "+Anew);
+            System.out.println("G: "+G);
+        }
+        Object[] next = qr_fact_givens(Anew.subMatrix(1, 1, A.getRows() - 1,
+            A.getColumns() - 1));
+        Matrix oldQ = Matrix.identity(A.getRows());
+        Matrix oldR = Anew;
+        for (int y = 1; y < A.getRows(); y++) {
+            for (int x = 1; x < A.getRows(); x++) {
+                oldQ.set(y, x, ((Matrix) next[0]).get(y - 1, x - 1));
+                oldR.set(y, x, ((Matrix) next[1]).get(y - 1, x - 1));
+            }
+        }
+        Matrix Q = Matrix.product(G, oldQ);
+        return new Object[] {Q, oldR, new Double(Q.times(oldR).plus(A.times(-1)).norm_inf())};
     }
 
     /**

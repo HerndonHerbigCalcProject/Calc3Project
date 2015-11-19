@@ -294,12 +294,12 @@ public class Matrix {
      */
     public double norm_inf() {
         double ret = 0;
+        double cur;
         for (int y = 0; y < rows; y++) {
-            double sum = 0;
             for (int x = 0; x < columns; x++) {
-                sum += Math.abs(matrix[y][x]);
+                cur = Math.abs(matrix[y][x]);
+                ret = cur > ret ? cur : ret;
             }
-            ret = sum > ret ? sum : ret;
         }
         return ret;
     }
