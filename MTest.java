@@ -105,6 +105,10 @@ public class MTest {
         System.out.println(Part1.qr_fact_givens(m3)[1]);
         System.out.println(Part1.qr_fact_givens(m2)[2]);
         System.out.println(Part1.qr_fact_givens(m3)[2]);
+        Matrix bad = new Matrix(3,3,new double[]{0,1,0,0,0,4,0,3,0});
+        System.out.println(Part1.qr_fact_househ(bad)[0]);
+        System.out.println(Part1.qr_fact_givens(bad)[0]);
+        System.out.println(Part1.qr_fact_givens(bad)[1]);
 
     }
 }

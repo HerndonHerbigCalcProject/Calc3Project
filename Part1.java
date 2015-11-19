@@ -66,7 +66,9 @@ public class Part1 {
         Vector X = new Vector(A, 0);
         double mag = X.magnitude();
         X.set(0, X.get(0) + mag);
-        X = X.scalarMultiply(1 / X.magnitude()).toVector();
+        if (mag > 0) {
+            X = X.scalarMultiply(1 / X.magnitude()).toVector();
+        }
         Matrix H = Matrix.identity(A.getRows());
         H = Matrix.sum(H, Matrix.product(X, X.transpose()).scalarMultiply(-2));
         //System.out.println("X: " + X);
@@ -111,8 +113,14 @@ public class Part1 {
             double x = Anew.get(0, 0);
             double y = Anew.get(i, 0);
             double r = Math.sqrt(x * x + y * y);
-            double c = x / r;
-            double s = -y / r;
+            double c, s;
+            if (r > 0) {
+                c = x / r;
+                s = -y / r;
+            } else {
+                c = 1;
+                s = 0;
+            }
             Matrix g = Matrix.identity(A.getRows());
             g.set(0, 0, c);
             g.set(i, 0, s);
