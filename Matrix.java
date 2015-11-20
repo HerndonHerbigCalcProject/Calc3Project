@@ -304,6 +304,8 @@ public class Matrix {
         return ret;
     }
 
+    public void
+
     /** 
      * Gets the trace of the matrix, used in part 3
      * @return the trace
@@ -325,6 +327,9 @@ public class Matrix {
      * equivalent vector object
      * @return a vector equivalent to the matrix
      */
+
+
+
     public Vector toVector() {
         if (columns == 1) {
             return new Vector(this, 0);
