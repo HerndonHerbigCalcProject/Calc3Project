@@ -110,5 +110,10 @@ public class MTest {
         System.out.println(Part1.qr_fact_givens(bad)[0]);
         System.out.println(Part1.qr_fact_givens(bad)[1]);
 
+        //Test Row operations
+        Matrix r = new Matrix(3, 3, new double[] {1,2,3,5,5,5,1,2,3});
+        r.rowOperation(2,0,-2);
+        r.rowScale(1,.2);
+        System.out.println(r);
     }
 }

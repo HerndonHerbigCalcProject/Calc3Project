@@ -304,7 +304,40 @@ public class Matrix {
         return ret;
     }
 
-    public void
+    /**
+     * Performs a row operation on one row of a matrix, one row plus another
+     * row that has been scaled
+     * @param targetRow The row that gets resized
+     * @param scaledRow The row to resize by
+     * @param scale The scale multiplied by the scaled row
+     */
+    public void rowOperation(int targetRow, int scaledRow, double scale) {
+        if (targetRow == scaledRow) {
+            throw new java.lang.IllegalArgumentException("Cannot apply row "
+                    + "operation to the same rows");
+        }
+        double[] target = this.matrix[targetRow];
+        double[] scaled = this.matrix[scaledRow];
+
+        //scales each value of one row based on the entries in the other row
+        for (int i = 0; i < target.length; i++) {
+            target[i] = target[i] + scale * scaled[i];
+        }
+
+    }
+
+    /**
+     * Scales a row from its original numbers
+     * @param row The row being affected
+     * @param scale The number to multiply the affected row by
+     */
+    public void rowScale(int row, double scale) {
+        double[] affected = this.matrix[row];
+        for (int i = 0; i < affected.length; i++) {
+            affected[i] = affected[i] * scale;
+        }
+    }
+
 
     /** 
      * Gets the trace of the matrix, used in part 3
@@ -327,9 +360,6 @@ public class Matrix {
      * equivalent vector object
      * @return a vector equivalent to the matrix
      */
-
-
-
     public Vector toVector() {
         if (columns == 1) {
             return new Vector(this, 0);
