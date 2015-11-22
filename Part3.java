@@ -84,6 +84,66 @@ public class Part3 {
     }
 
     public static void main(String[] args) {
+
+        System.out.println("Test Number,Max Eigenvalue,"
+                + "Iterations for Max,Min Eigenvalue,Iterations for Min,"
+                + "Trace,Determinant");
+        java.util.Random rand = new java.util.Random();
+        for (int i = 0; i < 1000; i++) {
+
+            StringBuilder printme = new StringBuilder((i + 1) + ",");
+            double[] x = new double[4];
+            boolean done = false;
+
+            while (!done) {
+                for (int j = 0; j < 4; j++) {
+                    x[j] = rand.nextDouble() * 4 - 2;
+                }
+                if ((x[0] * x[3] - x[1] * x[2]) == 0) {
+                    done = false;
+                } else {
+                    done = true;
+                }
+            }
+
+            Matrix x0 = new Matrix(2, 2, x);
+
+            //creates an inverse matrix to find min eigenvalue
+            Matrix xI = x0.times(1.0 / (x[0] * x[3] - x[1] * x[2]));
+            double temp = xI.get(0, 0);
+            xI.set(0, 0, xI.get(1, 1));
+            xI.set(1, 1, temp);
+            xI.set(0, 1, -xI.get(0, 1));
+            xI.set(1, 0, -xI.get(1, 0));
+
+            Vector guess = new Vector(new double[] {1, 1});
+            Object[] answers = power_method(x0, guess, .00005, 100);
+            Object[] answersInverse = power_method(xI, guess, .00005, 100);
+
+            //Check to see valid output
+            if (answers[0] == null) {
+                printme.append("null,infinity,");
+            } else {
+                printme.append(answers[0] + ",");
+                printme.append(answers[2] + ",");
+            }
+
+            //Check to see valid output again
+            if (answersInverse[0] == null) {
+                printme.append("null,infinity,");
+            } else {
+                double tempdub = 1.0 / (double) answersInverse[0];
+                printme.append(tempdub + ",");
+                printme.append(answersInverse[2] + ",");
+            }
+
+            printme.append(x0.trace() + ",");
+            printme.append(x0.determinant() + ",");
+
+            System.out.println(printme.toString());
+
+        }
+
 //        Matrix A = new Matrix(3, 3, new double[] {1,2,0,-2,1,2,1,3,1});
 //        Vector v = new Vector(new double[] {1,1,1});
 //
