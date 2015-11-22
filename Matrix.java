@@ -338,6 +338,17 @@ public class Matrix {
         }
     }
 
+    /**
+     * Swaps two rows of a matrix
+     * @param row1 the first row to swap
+     * @param row2 the second row to swap
+     */
+    public void rowSwap(int row1, int row2) {
+        double[] temp = this.matrix[row1];
+        this.matrix[row1] = this.matrix[row2];
+        this.matrix[row2] = temp;
+    }
+
 
     /** 
      * Gets the trace of the matrix, used in part 3

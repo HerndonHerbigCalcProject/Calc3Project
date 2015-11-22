@@ -114,6 +114,7 @@ public class MTest {
         Matrix r = new Matrix(3, 3, new double[] {1,2,3,5,5,5,1,2,3});
         r.rowOperation(2,0,-2);
         r.rowScale(1,.2);
+        r.rowSwap(0,1);
         System.out.println(r);
     }
 }

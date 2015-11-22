@@ -32,7 +32,92 @@ public class Part1 {
      * @return L, U, and the error |LU-A|
      */
     public static Object[] lu_fact(Matrix A) {
-        throw new UnsupportedOperationException();
+        if (A == null) {
+            throw new java.lang.IllegalArgumentException("Cannot take null"
+                    + " arguments");
+        }
+        //If it's not a square matrix, break code because that's absurd
+        if (A.getRows() != A.getColumns()) {
+            throw new java.lang.IllegalArgumentException("Method does not "
+                    + "work on a non-square matrix");
+        }
+
+        //cycle through each column on A
+        int y = 0;
+        int x = 0;
+        int rows = A.getRows();
+        int cols = A.getColumns();
+        ArrayList<Matrix> operations = new ArrayList<>();
+        Matrix identity;
+        Matrix U = A.subMatrix(0, 0, A.getRows(), A.getColumns());
+
+        for (int i = 0; i < U.getColumns(); i++) {
+            //get a pivot in the top left corner
+            int nextRow = y + 1;
+            while (U.get(y, x) == 0 && nextRow < rows) {
+
+                //If there is a row operation involved in getting the pivot,
+                // record that row operation in the operations list
+                if (U.get(nextRow, x) != 0) {
+                    U.rowSwap(y, nextRow);
+                    identity = Matrix.identity(rows);
+                    identity.rowSwap(y,nextRow);
+                    operations.add(identity);
+                }
+                nextRow++;
+            }
+
+            //The pivot value is in the top left of the submatrix
+            if (U.get(y, x) != 0) {
+
+                //Makes all the values below the pivot column 0
+                for (int currRow = y + 1; currRow < rows; currRow++) {
+                    double scale = -U.get(currRow, x) / U.get(y, x);
+                    U.rowOperation(currRow, y, scale);
+                    identity = Matrix.identity(rows);
+                    identity.rowOperation(currRow, y, scale);
+                    operations.add(identity);
+                }
+            }
+            //Increment x and y, focus on the next pivot space
+            x += 1;
+            y += 1;
+        }
+        // With matrix U created, create matrix L.
+        Matrix L = Matrix.identity(rows);
+
+        //L = (I3*I2*I1...)^-1
+        //L = I1^-1 * I2^-1 * I3^-1...
+
+        //Get the inverse of all the row operation matrices
+        for (Matrix I : operations) {
+            for (int x1 = 0; x1 < cols; x1++) {
+                for (int y1 = 0; y1 < rows; y1++) {
+                    if (y1 != x1) {
+                        I.set(y1, x1, -I.get(y1, x1));
+                    }
+                }
+            }
+        }
+
+        //Multiply the inverse identity matrices together to get L.
+        for (int i = 0; i < operations.size(); i++) {
+            L = L.times(operations.get(i));
+        }
+
+        //Now calculate the error
+        Matrix tempLU = L.times(U);
+        Matrix tempA = A.times(-1);
+        Matrix tempError = tempLU.plus(tempA);
+        double error = tempError.norm_inf();
+
+        //Add the data to the output array
+        Object[] output = new Object[3];
+        output[0] = L;
+        output[1] = U;
+        output[2] = error;
+
+        return output;
     }
 
     /**
@@ -79,7 +164,7 @@ public class Part1 {
         //At this point, we've killed all the non-zero elements in first col
         //System.out.println(Anew);
         Object[] next = qr_fact_househ(Anew.subMatrix(1, 1, A.getRows() - 1,
-            A.getColumns() - 1));
+                A.getColumns() - 1));
         Matrix oldQ = Matrix.identity(A.getRows());
         Matrix oldR = Anew;
         for (int y = 1; y < A.getRows(); y++) {
@@ -110,7 +195,7 @@ public class Part1 {
         }
         Matrix Anew = A.subMatrix(0, 0, A.getRows(), A.getColumns());
         Matrix G = Matrix.identity(A.getRows());
-        //Copyig A
+        //Copying A
         for (int i = 1; i < A.getRows(); i++) {
             double x = Anew.get(0, 0);
             double y = Anew.get(i, 0);
@@ -162,7 +247,52 @@ public class Part1 {
      * @return x, the solution to the system
      */
     public static Matrix solve_lu_b(Matrix A, Vector b) {
-        throw new UnsupportedOperationException();
+        if (A == null || b == null) {
+            throw new java.lang.IllegalArgumentException("Cannot use "
+                    + "null parameters");
+        }
+        Object[] LU = lu_fact(A);
+        Matrix L = (Matrix) LU[0];
+        Matrix U = (Matrix) LU[1];
+        Vector y = new Vector(L.getRows());
+        Vector x = new Vector(U.getRows());
+        double aNum = 0;
+        double answer = 0;
+
+        //cycle through all the rows in L, solving for y, using b
+        for (int i = 0; i < L.getRows(); i++) {
+
+            //find the values that have already been solved for and add them
+            // to the other side of the augmented matrix
+            aNum = 0;
+            for (int j = 0; j < i; j++) {
+                aNum += L.get(i, j) * y.get(j);
+            }
+
+            aNum = b.get(i) - aNum;
+            answer = aNum / L.get(i, i);
+
+            y.set(i, answer);
+        }
+        System.out.println("y: " + y);
+
+        //cycle through all the rows in U, solving for x, using y
+        for (int i = U.getRows() - 1; i >= 0; i--) {
+
+            //find the values that have already been solved for and add them
+            // to the other side of the augmented matrix
+            aNum = 0;
+            for (int j = U.getColumns() - 1; j > i; j--) {
+                aNum += U.get(i, j) * x.get(j);
+            }
+
+            aNum = y.get(i) - aNum;
+            answer = aNum / U.get(i, i);
+
+            x.set(i, answer);
+        }
+        System.out.println("x: " + x);
+        return x;
     }
 
     /**
@@ -180,70 +310,75 @@ public class Part1 {
     }
 
     public static void main(String[] args) {
-        Scanner scan = null;
-        if (args.length == 0) {
-            System.out.println("Gimme a file");
-            System.exit(0);
-        }
-        try {
-            scan = new Scanner(new java.io.File(args[0]));
-        } catch (java.io.FileNotFoundException e) {
-            System.out.println("Not a valid file");
-        }
-        Scanner row = null;
-        int rows = 0;
-        int columns = 0;
-        ArrayList<Double> data = new ArrayList<>();
-        while (scan.hasNextLine()) {
-            int c = 0;
-            row = new Scanner(scan.nextLine().replace(',',' '));
-            while (row.hasNextDouble()) {
+//        Scanner scan = null;
+//        if (args.length == 0) {
+//            System.out.println("Gimme a file");
+//            System.exit(0);
+//        }
+//        try {
+//            scan = new Scanner(new java.io.File(args[0]));
+//        } catch (java.io.FileNotFoundException e) {
+//            System.out.println("Not a valid file");
+//        }
+//        Scanner row = null;
+//        int rows = 0;
+//        int columns = 0;
+//        ArrayList<Double> data = new ArrayList<>();
+//        while (scan.hasNextLine()) {
+//            int c = 0;
+//            row = new Scanner(scan.nextLine().replace(',',' '));
+//            while (row.hasNextDouble()) {
+//
+//                data.add(row.nextDouble());
+//                c++; //wait no this is java
+//            }
+//            if (columns == 0) {
+//                columns = c;
+//            } else if (columns != c) {
+//                System.out.println("Invalid matrix");
+//                System.exit(1);
+//            }
+//            rows++;
+//        }
+//        double[] dataArray = new double[data.size()];
+//        for (int i = 0; i < data.size(); i++) {
+//            dataArray[i] = data.get(i);
+//        }
+//        Matrix A = new Matrix(rows, columns, dataArray);
+//        if (rows == columns) {
+//            //Display lu and qr and stuff
+//            //Object[] lu = lu_fact(A);
+//            Object[] househ = qr_fact_househ(A);
+//            Object[] givens = qr_fact_givens(A);
+//            /*
+//            //Display lu here when herbig finishes
+//            */
+//            System.out.println("Household QR");
+//            System.out.println("Q:");
+//            System.out.println(househ[0]);
+//            System.out.println("R:");
+//            System.out.println(househ[1]);
+//            System.out.println("|QR-A|: " + househ[2]);
+//            System.out.println("\n\n\n");
+//            System.out.println("Givens QR");
+//            System.out.println("Q:");
+//            System.out.println(givens[0]);
+//            System.out.println("R:");
+//            System.out.println(givens[1]);
+//            System.out.println("|QR-A|: " + givens[2]);
+//        } else if (rows + 1 == columns) {
+//            Vector b = A.subMatrix(0, A.getColumns() - 1, A.getRows(), 1).toVector();
+//            A = A.subMatrix(0, 0, A.getRows(), A.getColumns() - 1);
+//            //Solve augmented matrix and stuff
+//        } else {
+//            System.out.println("You gave me a " + A.getRows() + " by "
+//                + A.getColumns() + " matrix. I dunno what to do");
+//        }
+        Matrix a = new Matrix(4, 4, new double[] {1,1,1,1,1,2,3,4,1,3,6,10,1,4,10,20});
+        Vector b = new Vector(new double[] {1, .5, (double) 1/3, .25});
+        System.out.println("b = " + b);
+        System.out.println(solve_lu_b(a, b));
 
-                data.add(row.nextDouble());
-                c++; //wait no this is java
-            }
-            if (columns == 0) {
-                columns = c;
-            } else if (columns != c) {
-                System.out.println("Invalid matrix");
-                System.exit(1);
-            }
-            rows++;
-        }
-        double[] dataArray = new double[data.size()];
-        for (int i = 0; i < data.size(); i++) {
-            dataArray[i] = data.get(i);
-        }
-        Matrix A = new Matrix(rows, columns, dataArray);
-        if (rows == columns) {
-            //Display lu and qr and stuff
-            //Object[] lu = lu_fact(A);
-            Object[] househ = qr_fact_househ(A);
-            Object[] givens = qr_fact_givens(A);
-            /*
-            //Display lu here when herbig finishes
-            */
-            System.out.println("Household QR");
-            System.out.println("Q:");
-            System.out.println(househ[0]);
-            System.out.println("R:");
-            System.out.println(househ[1]);
-            System.out.println("|QR-A|: " + househ[2]); 
-            System.out.println("\n\n\n");
-            System.out.println("Givens QR");
-            System.out.println("Q:");
-            System.out.println(givens[0]);
-            System.out.println("R:");
-            System.out.println(givens[1]);
-            System.out.println("|QR-A|: " + givens[2]); 
-        } else if (rows + 1 == columns) {
-            Vector b = A.subMatrix(0, A.getColumns() - 1, A.getRows(), 1).toVector();
-            A = A.subMatrix(0, 0, A.getRows(), A.getColumns() - 1);
-            //Solve augmented matrix and stuff
-        } else {
-            System.out.println("You gave me a " + A.getRows() + " by "
-                + A.getColumns() + " matrix. I dunno what to do");
-        }
     }
 
 }
