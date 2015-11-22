@@ -274,7 +274,6 @@ public class Part1 {
 
             y.set(i, answer);
         }
-        System.out.println("y: " + y);
 
         //cycle through all the rows in U, solving for x, using y
         for (int i = U.getRows() - 1; i >= 0; i--) {
@@ -291,7 +290,6 @@ public class Part1 {
 
             x.set(i, answer);
         }
-        System.out.println("x: " + x);
         return x;
     }
 
@@ -310,74 +308,74 @@ public class Part1 {
     }
 
     public static void main(String[] args) {
-//        Scanner scan = null;
-//        if (args.length == 0) {
-//            System.out.println("Gimme a file");
-//            System.exit(0);
-//        }
-//        try {
-//            scan = new Scanner(new java.io.File(args[0]));
-//        } catch (java.io.FileNotFoundException e) {
-//            System.out.println("Not a valid file");
-//        }
-//        Scanner row = null;
-//        int rows = 0;
-//        int columns = 0;
-//        ArrayList<Double> data = new ArrayList<>();
-//        while (scan.hasNextLine()) {
-//            int c = 0;
-//            row = new Scanner(scan.nextLine().replace(',',' '));
-//            while (row.hasNextDouble()) {
-//
-//                data.add(row.nextDouble());
-//                c++; //wait no this is java
-//            }
-//            if (columns == 0) {
-//                columns = c;
-//            } else if (columns != c) {
-//                System.out.println("Invalid matrix");
-//                System.exit(1);
-//            }
-//            rows++;
-//        }
-//        double[] dataArray = new double[data.size()];
-//        for (int i = 0; i < data.size(); i++) {
-//            dataArray[i] = data.get(i);
-//        }
-//        Matrix A = new Matrix(rows, columns, dataArray);
-//        if (rows == columns) {
-//            //Display lu and qr and stuff
-//            //Object[] lu = lu_fact(A);
-//            Object[] househ = qr_fact_househ(A);
-//            Object[] givens = qr_fact_givens(A);
-//            /*
-//            //Display lu here when herbig finishes
-//            */
-//            System.out.println("Household QR");
-//            System.out.println("Q:");
-//            System.out.println(househ[0]);
-//            System.out.println("R:");
-//            System.out.println(househ[1]);
-//            System.out.println("|QR-A|: " + househ[2]);
-//            System.out.println("\n\n\n");
-//            System.out.println("Givens QR");
-//            System.out.println("Q:");
-//            System.out.println(givens[0]);
-//            System.out.println("R:");
-//            System.out.println(givens[1]);
-//            System.out.println("|QR-A|: " + givens[2]);
-//        } else if (rows + 1 == columns) {
-//            Vector b = A.subMatrix(0, A.getColumns() - 1, A.getRows(), 1).toVector();
-//            A = A.subMatrix(0, 0, A.getRows(), A.getColumns() - 1);
-//            //Solve augmented matrix and stuff
-//        } else {
-//            System.out.println("You gave me a " + A.getRows() + " by "
-//                + A.getColumns() + " matrix. I dunno what to do");
-//        }
-        Matrix a = new Matrix(4, 4, new double[] {1,1,1,1,1,2,3,4,1,3,6,10,1,4,10,20});
-        Vector b = new Vector(new double[] {1, .5, (double) 1/3, .25});
-        System.out.println("b = " + b);
-        System.out.println(solve_lu_b(a, b));
+        Scanner scan = null;
+        if (args.length == 0) {
+            System.out.println("Gimme a file");
+            System.exit(0);
+        }
+        try {
+            scan = new Scanner(new java.io.File(args[0]));
+        } catch (java.io.FileNotFoundException e) {
+            System.out.println("Not a valid file");
+        }
+        Scanner row = null;
+        int rows = 0;
+        int columns = 0;
+        ArrayList<Double> data = new ArrayList<>();
+        while (scan.hasNextLine()) {
+            int c = 0;
+            row = new Scanner(scan.nextLine().replace(',',' '));
+            while (row.hasNextDouble()) {
+
+                data.add(row.nextDouble());
+                c++; //wait no this is java
+            }
+            if (columns == 0) {
+                columns = c;
+            } else if (columns != c) {
+                System.out.println("Invalid matrix");
+                System.exit(1);
+            }
+            rows++;
+        }
+        double[] dataArray = new double[data.size()];
+        for (int i = 0; i < data.size(); i++) {
+            dataArray[i] = data.get(i);
+        }
+        Matrix A = new Matrix(rows, columns, dataArray);
+        if (rows == columns) {
+            //Display lu and qr and stuff
+            //Object[] lu = lu_fact(A);
+            Object[] househ = qr_fact_househ(A);
+            Object[] givens = qr_fact_givens(A);
+            /*
+            //Display lu here when herbig finishes
+            */
+            System.out.println("Household QR");
+            System.out.println("Q:");
+            System.out.println(househ[0]);
+            System.out.println("R:");
+            System.out.println(househ[1]);
+            System.out.println("|QR-A|: " + househ[2]);
+            System.out.println("\n\n\n");
+            System.out.println("Givens QR");
+            System.out.println("Q:");
+            System.out.println(givens[0]);
+            System.out.println("R:");
+            System.out.println(givens[1]);
+            System.out.println("|QR-A|: " + givens[2]);
+        } else if (rows + 1 == columns) {
+            Vector b = A.subMatrix(0, A.getColumns() - 1, A.getRows(), 1).toVector();
+            A = A.subMatrix(0, 0, A.getRows(), A.getColumns() - 1);
+            //Solve augmented matrix and stuff
+        } else {
+            System.out.println("You gave me a " + A.getRows() + " by "
+                + A.getColumns() + " matrix. I dunno what to do");
+        }
+//        Matrix a = new Matrix(4, 4, new double[] {1,1,1,1,1,2,3,4,1,3,6,10,1,4,10,20});
+//        Vector b = new Vector(new double[] {1, .5, (double) 1/3, .25});
+//        System.out.println("b = " + b);
+//        System.out.println(solve_lu_b(a, b));
 
     }
 
