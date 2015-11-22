@@ -360,12 +360,16 @@ public class Part1 {
         Matrix A = new Matrix(rows, columns, dataArray);
         if (rows == columns) {
             //Display lu and qr and stuff
-            //Object[] lu = lu_fact(A);
+            Object[] lu = lu_fact(A);
             Object[] househ = qr_fact_househ(A);
             Object[] givens = qr_fact_givens(A);
-            /*
-            //Display lu here when herbig finishes
-            */
+            System.out.println("LU Factorization");
+            System.out.println("L:");
+            System.out.println(lu[0]);
+            System.out.println("U:");
+            System.out.println(lu[1]);
+            System.out.println("|LU-A|: " + lu[2]);
+            System.out.println("\n\n\n");
             System.out.println("Household QR");
             System.out.println("Q:");
             System.out.println(househ[0]);

@@ -122,6 +122,9 @@ public class MTest {
         System.out.println(Part1.qr_fact_househ(Pas)[1]);
         System.out.println(Part1.qr_fact_givens(Pas)[0]);
         System.out.println(Part1.qr_fact_givens(Pas)[1]);
+        System.out.println(Part1.lu_fact(Pas)[0]);
+        System.out.println(Part1.lu_fact(Pas)[1]);
         System.out.println(Part1.solve_qr_b(Pas, new Vector(new double[] {1, 1.0/2, 1.0/3, 1.0/4})));
+        System.out.println(Part1.solve_lu_b(Pas, new Vector(new double[] {1, 1.0/2, 1.0/3, 1.0/4})));
     }
 }

@@ -105,16 +105,67 @@ public class Part2 {
         }
         return new Object[] {x0, new Integer(total)};
     }
-
+    /**
+     * Randomly generate at least 100 3×1 initial vectors x0. The entries of the
+     * vectors should be floating-point real numbers uniformly distributed in
+     * the interval [−1, 1]. For each x0 • Record x0. • Use both jacobi_iter and
+     * gs_iter to find the approximation solution of Ax = b within a tolerance
+     * of 5 decimal places (kxn − xn−1k∞ ≤ ε = 0.00005). Use a maximum of
+     * M = 100 iterations before quitting in failure. • Record xN and number of
+     * iterations N in both methods. (c) Average these 100 xN from (b) to get an
+     * approximation solution xapprox. Compute the error of this approximation
+     * to the exact solution xexact = (9/190 28/475 33/475 ), that is kxapprox
+     * − xexactk∞, for both iterative methods. Average the ratio of number of
+     * iteration steps N between Jacobi and Gauss-Seidel method, that is the
+     * average of the ratio NJacobi/NGauss−Seidel.
+     * 
+     * Use of this program: in the command line type
+     * ~$ javac Part2.java
+     * to compile the program
+     * 
+     * Then type:
+     * ~$ java Part2 > results.csv
+     * This will make a new csv file of the data
+     */
     public static void main(String[] args) {
-        System.out.println(A);
-        System.out.println(b);
+        //System.out.println(A);
+        //System.out.println(b);
         Object[] test1 = jacobi_iter(new Vector(new double[] {0, 0, 0}), 0.0005,
              30);
-        System.out.println("Vector result:\n"+test1[0]);
-        System.out.println("Iterations required: " + test1[1]);
+        //System.out.println("Vector result:\n"+test1[0]);
+        //System.out.println("Iterations required: " + test1[1]);
         Object[] test2 = gs_iter(new Vector(new double[] {0,0,0}), 0.000005, 30);
-        System.out.println("Vector result: " + ((Matrix)test2[0]).transpose());
-        System.out.println("Iterations required: " + test2[1]);
+        //System.out.println("Vector result: " + ((Matrix)test2[0]).transpose());
+        //System.out.println("Iterations required: " + test2[1]);
+        System.out.println("i,x01,x02,x03,xN1j,xN2j,xN3j,Nj,xN1g,xN2g,xN3g,Ng");
+        java.util.Random rand = new java.util.Random();
+        Vector total_jacobi = new Vector(3);
+        Vector total_gs = new Vector(3);
+        for (int i = 0; i < 100; i++) {
+            StringBuilder printme = new StringBuilder(i + ",");
+            double[] x = new double[3];
+            for (int j = 0; j < 3; j++) {
+                x[j] = rand.nextDouble() * 2 - 1;
+                printme.append(x[j] + ",");
+            }
+            Vector x0 = new Vector(x);
+            Object[] jacobi = jacobi_iter(x0,0.00005,100);
+            if (jacobi[0] == null) {
+                printme.append("null,null,null,infinity");
+            } else {
+                printme.append(jacobi[0].toString().replaceAll("\n", ""));
+                printme.append(jacobi[1] + ",");
+                total_jacobi = total_jacobi.plus((Matrix) jacobi[0]).toVector();
+            }
+            Object[] gs = gs_iter(x0, 0.00005, 100);
+            if (gs[0] == null) {
+                printme.append("null,null,null,infinity");
+            } else {
+                printme.append(gs[0].toString().replaceAll("\n", ""));
+                printme.append(gs[1] + ",");
+                total_gs = total_gs.plus((Matrix) gs[0]).toVector();
+            }
+            System.out.println(printme.toString());
+        }
     }
 }
