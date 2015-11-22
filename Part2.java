@@ -7,9 +7,11 @@
  * @author Alex Herbig
  */
 public class Part2 {
-    private static final Matrix A = (new Matrix(3, 3, new double[] {1.0, 1.0/2,
-        1.0/3, 1.0/2, 1.0, 1.0/4, 1.0/3, 1.0/4, 1.0}));
-    private static final Vector b = (new Vector(new double[] {0.1, 0.1, 0.1}));
+    private static final Matrix A = new Matrix(3, 3, new double[] {1.0, 1.0/2,
+        1.0/3, 1.0/2, 1.0, 1.0/4, 1.0/3, 1.0/4, 1.0});
+    private static final Vector b = new Vector(new double[] {0.1, 0.1, 0.1});
+    private static final Vector xExact = new Vector(new double[] {9.0/190,
+        28.0/475, 33.0/475});
 
     /**
      * Implement a procedure that uses the Jacobi iterative method to
@@ -46,10 +48,10 @@ public class Part2 {
                 }
             }
         }
-        if (M == 1) {
+        //if (M == 1) {
             //System.out.println(S);
             //System.out.println(T);
-        }
+        //}
         x1 = (Matrix.product(S, Matrix.sum(b, Matrix.product(
             T, x0).scalarMultiply(-1)))).toVector();
         //System.out.println(x1);
@@ -137,7 +139,8 @@ public class Part2 {
         Object[] test2 = gs_iter(new Vector(new double[] {0,0,0}), 0.000005, 30);
         //System.out.println("Vector result: " + ((Matrix)test2[0]).transpose());
         //System.out.println("Iterations required: " + test2[1]);
-        System.out.println("i,x01,x02,x03,xN1j,xN2j,xN3j,Nj,xN1g,xN2g,xN3g,Ng");
+        System.out.println("i,x01,x02,x03,|x0-xExact|,xN1j,xN2j,xN3j,Nj,xN1g,"
+            + "xN2g,xN3g,Ng");
         java.util.Random rand = new java.util.Random();
         Vector total_jacobi = new Vector(3);
         Vector total_gs = new Vector(3);
@@ -149,6 +152,7 @@ public class Part2 {
                 printme.append(x[j] + ",");
             }
             Vector x0 = new Vector(x);
+            printme.append(x0.plus(xExact.times(-1)).norm_inf() + ",");
             Object[] jacobi = jacobi_iter(x0,0.00005,100);
             if (jacobi[0] == null) {
                 printme.append("null,null,null,infinity");
