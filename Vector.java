@@ -44,6 +44,11 @@ public class Vector extends Matrix{
         }
         return Math.sqrt(ret);
     }
+
+    public Vector unit() {
+        return this.times(1.0/this.magnitude()).toVector();
+    }
+
     public static double dotProduct(Vector v1, Vector v2) {
         return product(v1.transpose(), v2).get(0, 0);
     }
