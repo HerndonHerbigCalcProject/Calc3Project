@@ -28,7 +28,7 @@ For part 2, we made the output in csv format so it could be opened in excel. To 
 ~~~ sh
 $ java Part2 > part2results.csv
 ~~~
-and then part2results.csv can be opened in excel (or whatever filename you picked). Side note: x01, x02, x03 are entries of x0, xN1j, xN2j, xN3j are entries of the resulting vector from jacobi, xN1g, xN2g, xN3g are entries of gauss-seidal result, and Nj and Ng are number of iterations required for Jacobi and Gauss-Seidal, respectively.
+and then part2results.csv can be opened in excel (or whatever filename you picked). Side note: values x01, x02, x03 are entries of x0; values xN1j, xN2j, xN3j are entries of the resulting vector from jacobi; values xN1g, xN2g, xN3g are entries of gauss-seidal result; and values Nj and Ng are number of iterations required for Jacobi and Gauss-Seidal, respectively.
 Part 3
 ------------
 Just like part 2, we made the output in csv format. Type in 
