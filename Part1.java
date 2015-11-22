@@ -175,8 +175,23 @@ public class Part1 {
      * @param b the vector
      * @return x, the solution to the system
      */
-    public static Matrix solve_qr_b(Matrix A, Vector b) {
-        throw new UnsupportedOperationException();
+    public static Vector solve_qr_b(Matrix A, Vector b) {
+        Object[] qr = qr_fact_househ(A);
+        Matrix Q = (Matrix) qr[0];
+        Matrix R = (Matrix) qr[1];
+        Vector B = Q.transpose().times(b).toVector();
+        for (int i = A.getRows() - 1; i >=0; i--) {
+            double tmp = 1.0 / R.get(i, i);
+            R.rowScale(i, tmp);
+            B.rowScale(i, tmp);
+            for (int j = i - 1; j >=0; j--) {
+                tmp = -R.get(j, i);
+                R.rowOperation(j, i, tmp);
+                B.rowOperation(j, i, tmp);
+            }
+        }
+        System.out.println(R);
+        return B;
     }
 
     public static void main(String[] args) {
