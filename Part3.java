@@ -19,7 +19,8 @@ public class Part3 {
      *          that determines when the approximation is close enough
      * @param N  a positive integer N giving the maximum number of times to 
      *          iterate the power method before quitting.
-     * @return an eigenvalue and associated eigenvector and number of iterations
+     * @return an eigenvalue and associated eigenvector and number of iterations,
+     *          or an Object array with null values if it failed
      */
     public static Object[] power_method(Matrix A, Vector v, double e, int N) {
         if (A.getColumns() != v.getRows()) {

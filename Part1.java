@@ -318,14 +318,43 @@ public class Part1 {
                 B.rowOperation(j, i, tmp);
             }
         }
-        System.out.println(R);
+        //System.out.println(R);
         return B;
     }
 
     public static void main(String[] args) {
         Scanner scan = null;
+        java.io.PrintWriter writer = null;
         if (args.length == 0) {
-            System.out.println("Gimme a file");
+            try {
+            writer = new java.io.PrintWriter("PascalResults.csv", "UTF-8");
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                System.exit(1);
+            }
+            writer.println("LU error, QR error, Solution error");
+            for (int n = 2; n <= 12; n++) {
+                Matrix P = pascal(n);
+                double bData[] = new double[n];
+                for (int i = 1; i <=n; i++) {
+                    bData[i - 1] = 1.0 / i;
+                }
+                Vector b = new Vector(bData);
+                Matrix lu = solve_lu_b(P, b);
+                Matrix qr = solve_qr_b(P, b);
+                Object[] lu_err = lu_fact(P);
+                Object[] qr_err = qr_fact_househ(P);
+                double sol_error = P.times(lu).plus(b.times(-1))
+                    .norm_inf();
+                writer.println(lu_err[2] + "," + qr_err[2]
+                    + "," + sol_error);
+                System.out.println("Solution: " + lu);
+                System.out.println("|LU-P|: " + lu_err[2]);
+                System.out.println("|QR-P|: " + qr_err[2]);
+                System.out.println("|Pxsol-b|: " + sol_error);
+                System.out.println("\n\n");
+            }
+            writer.close();
             System.exit(0);
         }
         try {
