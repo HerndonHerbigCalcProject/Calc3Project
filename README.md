@@ -1,6 +1,8 @@
 # Project
 Calc 3 project by JT Herndon and Alex Herbig
 To see full documentation, open documentation/index.html in a web browser.
+Also, if you're reading this on a command line, it looks a lot prettier at
+http://github.com/HerndonHerbigCalcProject/Calc3Project
 
 All basic linear algebra functionality can be found in Matrix.java
 Compile
