@@ -321,7 +321,10 @@ public class Part1 {
         //System.out.println(R);
         return B;
     }
-
+    /**
+     * See README.md for use
+     * @param args command line arguments
+     */
     public static void main(String[] args) {
         Scanner scan = null;
         java.io.PrintWriter writer = null;
@@ -332,7 +335,7 @@ public class Part1 {
                 System.out.println(e.getMessage());
                 System.exit(1);
             }
-            writer.println("LU error, QR error, Solution error");
+            writer.println("Size,LU error, QR error H, QR error G, Solution error");
             for (int n = 2; n <= 12; n++) {
                 Matrix P = pascal(n);
                 double bData[] = new double[n];
@@ -343,14 +346,16 @@ public class Part1 {
                 Matrix lu = solve_lu_b(P, b);
                 Matrix qr = solve_qr_b(P, b);
                 Object[] lu_err = lu_fact(P);
-                Object[] qr_err = qr_fact_househ(P);
+                Object[] qr_err_g = qr_fact_givens(P);
+                Object[] qr_err_h = qr_fact_househ(P);
                 double sol_error = P.times(lu).plus(b.times(-1))
                     .norm_inf();
-                writer.println(lu_err[2] + "," + qr_err[2]
-                    + "," + sol_error);
+                writer.println(n + "," + lu_err[2] + "," + qr_err_h[2]
+                    + "," + qr_err_g[2] + "," + sol_error);
                 System.out.println("Solution: " + lu);
                 System.out.println("|LU-P|: " + lu_err[2]);
-                System.out.println("|QR-P|: " + qr_err[2]);
+                System.out.println("Household |QR-P|: " + qr_err_h[2]);
+                System.out.println("Givens |QR-P|: " + qr_err_g[2]);
                 System.out.println("|Pxsol-b|: " + sol_error);
                 System.out.println("\n\n");
             }

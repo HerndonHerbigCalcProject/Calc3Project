@@ -140,10 +140,12 @@ public class Part2 {
         //System.out.println("Vector result: " + ((Matrix)test2[0]).transpose());
         //System.out.println("Iterations required: " + test2[1]);
         System.out.println("i,x01,x02,x03,|x0-xExact|,xN1j,xN2j,xN3j,Nj,xN1g,"
-            + "xN2g,xN3g,Ng");
+            + "xN2g,xN3g,Ng,");
         java.util.Random rand = new java.util.Random();
         Vector total_jacobi = new Vector(3);
         Vector total_gs = new Vector(3);
+        int jacobi_iters = 0;
+        int gs_iters = 0;
         for (int i = 0; i < 100; i++) {
             StringBuilder printme = new StringBuilder(i + ",");
             double[] x = new double[3];
@@ -170,6 +172,18 @@ public class Part2 {
                 total_gs = total_gs.plus((Matrix) gs[0]).toVector();
             }
             System.out.println(printme.toString());
+            jacobi_iters += (int) jacobi[1];
+            gs_iters += (int) gs[1];
         }
+        total_jacobi = total_jacobi.times(1.0/100).toVector();
+        total_gs = total_gs.times(0.01).toVector();
+        double ratio = ((double) jacobi_iters) / gs_iters;
+        System.out.println("Averages: ");
+        System.out.println("Jacobi:" + total_jacobi.toString().trim());
+        System.out.println("Error:," + total_jacobi.plus(xExact.times(-1)).norm_inf());
+        System.out.println("Gauss-Seidal:\n" + total_gs.toString().trim());
+        System.out.println("Error:," + total_gs.plus(xExact.times(-1)).norm_inf());
+        System.out.println("Njacobi / Ngs," + ratio);
+        System.out.println(xExact);
     }
 }
