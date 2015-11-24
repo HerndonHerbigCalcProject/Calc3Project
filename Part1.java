@@ -432,15 +432,17 @@ public class Part1 {
             } catch (Exception e) {
             }
             if (ans_lu != null) {
+                System.out.println("LU method:");
                 System.out.println("A:\n" + ans_lu);
                 double error = A.times(ans_lu).plus(b.times(-1)).norm_inf();
                 System.out.println("Error: " + error);
-            } else if (ans_qr != null) {
+            }
+            System.out.println("\n\n");
+            if (ans_qr != null) {
+                System.out.println("QR method:");
                 System.out.println("A:\n" + ans_qr);
                 double error = A.times(ans_qr).plus(b.times(-1)).norm_inf();
                 System.out.println("Error: " + error);
-            } else {
-                System.out.println("Well, neither method of factoring A worked; this is awkward");
             }
         } else {
             System.out.println("You gave me a " + A.getRows() + " by "
