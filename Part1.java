@@ -421,6 +421,27 @@ public class Part1 {
             Vector b = A.subMatrix(0, A.getColumns() - 1, A.getRows(), 1).toVector();
             A = A.subMatrix(0, 0, A.getRows(), A.getColumns() - 1);
             //Solve augmented matrix and stuff
+            Matrix ans_lu = null;
+            Matrix ans_qr = null;
+            try {
+                ans_lu = solve_lu_b(A, b);
+            } catch (Exception e) {
+            }
+            try {
+                ans_qr = solve_qr_b(A, b);
+            } catch (Exception e) {
+            }
+            if (ans_lu != null) {
+                System.out.println("A:\n" + ans_lu);
+                double error = A.times(ans_lu).plus(b.times(-1)).norm_inf();
+                System.out.println("Error: " + error);
+            } else if (ans_qr != null) {
+                System.out.println("A:\n" + ans_qr);
+                double error = A.times(ans_qr).plus(b.times(-1)).norm_inf();
+                System.out.println("Error: " + error);
+            } else {
+                System.out.println("Well, neither method of factoring A worked; this is awkward");
+            }
         } else {
             System.out.println("You gave me a " + A.getRows() + " by "
                 + A.getColumns() + " matrix. I dunno what to do");
